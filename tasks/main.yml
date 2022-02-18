@@ -17,7 +17,7 @@
     dest: /var/postgresql/data/postgresql.conf
     owner: _postgresql
     group: _postgresql
-    mode: 0600
+    mode: '0600'
   notify: restart postgresql
 
 - name: generate user configurations
@@ -26,7 +26,7 @@
     dest: /var/postgresql/data/{{ item }}
     owner: _postgresql
     group: _postgresql
-    mode: 0600
+    mode: '0600'
   with_items:
     - pg_hba.conf
     - pg_ident.conf
