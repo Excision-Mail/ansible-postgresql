@@ -4,6 +4,11 @@
     name: "{{ psql_packages }}"
     state: present
 
+- name: enable postgresql service
+  service:
+    name: postgresql
+    enabled: true
+
 - name: initialize postgresql
   command: initdb -D /var/postgresql/data -U postgres -E UTF8 -A peer
   args:
@@ -56,10 +61,10 @@
     line: "kern.seminfo.semmns={{ psql_semmns }}"
   notify: sysctl semmns
 
-- name: enable postgresql
+- name: ensure postgresql is started
   service:
     name: postgresql
-    enabled: true
+    state: started
 
 - name: flush_handlers
   meta: flush_handlers
