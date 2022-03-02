@@ -60,19 +60,26 @@
     path: /etc/sysctl.conf
     regexp: "^kern.seminfo.semmni"
     line: "kern.seminfo.semmni={{ psql_semmni }}"
-  notify: sysctl semmni
+  notify:
+    - sysctl semmni
+    - restart postgresql
+  register: _psql_semmni
 
 - name: Ensure semmns for busy servers
   lineinfile:
     path: /etc/sysctl.conf
     regexp: "^kern.seminfo.semmns"
     line: "kern.seminfo.semmns={{ psql_semmns }}"
-  notify: sysctl semmns
+  notify:
+    - sysctl semmns
+    - restart postgresql
+  register: _psql_semmns
 
 - name: ensure postgresql is started
   service:
     name: postgresql
     state: started
+  when: not ( _psql_semmns.changed and _psql_semmni.changed )
 
 - name: flush_handlers
   meta: flush_handlers
