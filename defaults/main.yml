@@ -2,6 +2,7 @@
 psql_packages:
   - postgresql-server
   - postgresql-client
+  - postgresql-contrib
   - py3-psycopg2
 
 psql_addresses:
